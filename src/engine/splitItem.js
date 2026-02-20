@@ -33,6 +33,8 @@ export function splitItem(block, availableHeight, templateConfig) {
 
     return {
         firstPart: { ...block, text: block.text.slice(0, best).trimEnd() },
+        //will mark that the rest of bullet should not get the bullet dot
+
         secondPart: { ...block, text: block.text.slice(best).trimStart(), isContinuation: true }
     };
 }
