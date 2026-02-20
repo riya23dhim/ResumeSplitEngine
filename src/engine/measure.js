@@ -33,6 +33,9 @@ function getContainer(templateConfig) {
     _container.appendChild(style);
 
     _content = document.createElement('div');
+    // overflow:auto creates a Block Formatting Context so margins
+    // don't collapse outside the container — matches real page behavior
+    _content.style.overflow = 'auto';
     _container.appendChild(_content);
 
     _currentCSS = templateConfig.cssText;
@@ -54,6 +57,10 @@ export function measure(block, templateConfig) {
 //if its splitable in that case measure will be used
 export function measureAll(blocks, templateConfig) {
   const content = getContainer(templateConfig);
+
+  // Force browser to resolve CSS before measuring (prevents underestimation)
+  content.offsetHeight;
+
   content.innerHTML = '';
 
   const heights = [];

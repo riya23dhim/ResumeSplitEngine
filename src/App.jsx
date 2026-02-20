@@ -222,8 +222,14 @@ export default function App() {
     const [fontsLoaded, setFontsLoaded] = useState(false);
 
     useEffect(() => {
-        document.fonts.ready.then(() => {
+        // Explicitly load Inter so measurements use correct font metrics on first render
+        const font = new FontFace('Inter', "url(https://fonts.gstatic.com/s/inter/v18/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfAZ9hiA.woff2)");
+        font.load().then((loadedFont) => {
+            document.fonts.add(loadedFont);
             setFontsLoaded(true);
+        }).catch(() => {
+            // Fallback: if font fails to load, proceed anyway after a delay
+            setTimeout(() => setFontsLoaded(true), 500);
         });
     }, []);
 
